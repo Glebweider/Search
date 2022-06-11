@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <script src="https://kit.fontawesome.com/3d0e27e432.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+     <style>
+        a.info {
+            display: none;
+        }
+        a.info.active {
+            display: unset;
+            height: 100%;
+            width: 100%;
+            border: none;
+            background: #fff;
+            font-size: 18px;
+            border-radius: 50px;
+            padding: 0 60px 0 20px;
+            outline: none;
+            opacity: 1;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-decoration: none;
+        }
+    </style>
+    <title>Search</title>
+</head>
+<body>
+    <div class="search-box">
+
+        <input id="search" type="text" placeholder="Ведите для поиска ...">
+
+        <a href="#" class="info">Вывод Пользователей</a>
+
+
+        <div class="search-btn">
+            <i class="fas fa-search"></i>
+        </div>
+
+        <div class="cancel-btn">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="search-data"></div>
+
+
+    </div>
+
+
+    <script>
+        $('.search-btn').click(function(e) {
+
+            var word = jQuery("#search").val();
+            if(word.length > 1){
+                $.ajax({
+                type: "post",
+                url: "search.php",
+                dataType: "json",
+                data: {word},
+                success: function (data) {
+                    if(data.status == "success") {
+                        setTimeout(() => {
+                            location.href="/profile.html";
+                        }, 3500);
+                    }
+                    alert(data.message);
+                }
+            });
+        };
+    });
+        const searchbtn = document.querySelector(".search-btn");
+        const cancelbtn = document.querySelector(".cancel-btn");
+        const searchbox = document.querySelector(".search-box");
+        const searchinput = document.querySelector("input");
+        const searchdata = document.querySelector(".search-data");
+        const searchinfo = document.querySelector("a.info");
+
+
+        searchbtn.onclick = () => {
+            searchbox.classList.add("active");
+            searchinput.classList.add("active");
+            searchbtn.classList.add("active");
+            cancelbtn.classList.add("active");
+            searchinfo.classList.add("active");
+        }
+        cancelbtn.onclick = () => {
+            searchbox.classList.remove("active");
+            searchinput.classList.remove("active");
+            searchbtn.classList.remove("active");
+            cancelbtn.classList.remove("active");
+            searchinfo.classList.remove("active");
+        }
+    </script>
+</body>
+</html>
